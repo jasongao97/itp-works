@@ -1,4 +1,4 @@
-const welcomePage = `<!DOCTYPE html>
+const WelcomePage = (aliasLinks) => `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -10,51 +10,114 @@ const welcomePage = `<!DOCTYPE html>
     <title>${SITE_TITLE}</title>
   </head>
   <body class="bg-indigo-700">
-    <div class="w-full py-12 px-6 flex flex-col items-center">
-      <h1 class="text-4xl font-bold text-white">${SITE_TITLE}</h1>
-      <p class="mt-2 text-lg text-indigo-300">
-        Get a shorter link for your projects
-      </p>
+    <div class="w-full py-12 px-6 flex justify-center">
+      <div class="flex flex-col items-center">
+        <h1 class="text-4xl font-bold text-white">${SITE_TITLE}</h1>
+        <p class="mt-2 text-lg text-indigo-300">
+          Get a shorter link for your projects
+        </p>
 
-      <div class="mt-8 flex items-center space-x-8 text-indigo-800">
-        <div
-          class="relative text-xs transform -rotate-2 bg-indigo-400 w-60 p-3 rounded break-all"
-        >
-          https://xxxxx.notion.site/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx<span
-            class="absolute bottom-0 right-0 transform translate-x-2 translate-y-2 text-2xl"
-            >❌</span
+        <div class="mt-8 flex items-center space-x-8 text-indigo-800">
+          <div
+            class="relative text-xs transform -rotate-2 bg-indigo-400 w-60 p-3 rounded break-all"
           >
-        </div>
-        <div
-          class="text-sm transform rotate-2 bg-indigo-400 p-3 rounded break-all"
-        >
-          https://${DOMAIN_NAME}/xxxxxx<span
-            class="absolute bottom-0 right-0 transform translate-x-2 translate-y-4 text-2xl"
-            >✅</span
+            https://xxxxx.notion.site/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx<span
+              class="absolute bottom-0 right-0 transform translate-x-2 translate-y-2 text-2xl"
+              >❌</span
+            >
+          </div>
+          <div
+            class="text-sm transform rotate-2 bg-indigo-400 p-3 rounded break-all"
           >
+            https://${DOMAIN_NAME}/xxxxxx<span
+              class="absolute bottom-0 right-0 transform translate-x-2 translate-y-4 text-2xl"
+              >✅</span
+            >
+          </div>
         </div>
-      </div>
 
-      <div
-        id="result"
-        class="hidden flex flex-col items-center mt-12 bg-white shadow-lg p-8 rounded"
-      >
-        <h2 class="text-2xl font-bold text-gray-900">Congratulation</h2>
-        <p class="mt-2 text-gray-600">You can access your page now at</p>
         <div
-          class="mt-6 py-4 px-6 text-xl rounded bg-gray-200 flex items-center space-x-12"
+          id="result"
+          class="hidden flex flex-col items-center mt-12 bg-white shadow-lg p-8 rounded"
         >
-          <p id="destinationName"></p>
-          <a
-            id="destinationLink"
-            class="border text-gray-500 border-gray-300 hover:bg-gray-300 rounded text-sm pl-2 pr-1 flex items-center"
-            href="/"
-            target="_blank"
+          <h2 class="text-2xl font-bold text-gray-900">Congratulation</h2>
+          <p class="mt-2 text-gray-600">You can access your page now at</p>
+          <div
+            class="mt-6 py-4 px-6 text-xl rounded bg-gray-200 flex items-center space-x-12"
           >
-            Open
+            <p id="destinationName"></p>
+            <a
+              id="destinationLink"
+              class="border text-gray-500 border-gray-300 hover:bg-gray-300 rounded text-sm pl-2 pr-1 flex items-center"
+              href="/"
+              target="_blank"
+            >
+              Open
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 transform scale-75"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div
+          id="form"
+          class="flex flex-col items-center mt-12 bg-white shadow-lg p-6 rounded space-y-6"
+        >
+          <div class="w-full">
+            <label class="block text-gray-600 text-sm mb-2">Name</label>
+            <div class="flex space-x-2 items-center">
+              <p class="py-2 text-lg font-bold italic tracking-wide">
+                ${DOMAIN_NAME}/
+              </p>
+              <input
+                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+                id="alias"
+                type="text"
+                placeholder="henryiswhy"
+              />
+            </div>
+            <p id="nameTakenWarning" class="hidden mt-2 text-sm text-red-400">
+              Sorry, this name is already taken
+            </p>
+          </div>
+
+          <div class="w-full">
+            <label class="block text-gray-600 text-sm mb-2">
+              Your long URL
+            </label>
+
+            <textarea
+              class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              id="url"
+              type="text"
+              placeholder="https://xxxxx.notion.site/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            ></textarea>
+
+            <p id="invalidURLWarning" class="hidden mt-1 text-sm text-red-400">
+              Invalid URL
+            </p>
+          </div>
+
+          <button
+            class="w-full flex items-center justify-center p-2 text-white bg-indigo-500 rounded hover:bg-indigo-700"
+            onclick="submit()"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 transform scale-75"
+              id="spining-icon"
+              class="h-6 w-6 mr-1 animate-spin hidden"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -63,78 +126,23 @@ const welcomePage = `<!DOCTYPE html>
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
               />
             </svg>
-          </a>
+            <span>Make Link</span>
+          </button>
         </div>
+
+        <p class="mt-8 text-center text-indigo-400 text-xs">
+          &copy; 2022 Built by Jason Gao with Cloudflare Worker
+        </p>
       </div>
-
-      <div
-        id="form"
-        class="flex flex-col items-center mt-12 bg-white shadow-lg p-6 rounded space-y-6"
-      >
-        <div class="w-full">
-          <label class="block text-gray-600 text-sm mb-2">Name</label>
-          <div class="flex space-x-2 items-center">
-            <p class="py-2 text-lg font-bold italic tracking-wide">
-              ${DOMAIN_NAME}/
-            </p>
-            <input
-              class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
-              id="alias"
-              type="text"
-              placeholder="henryiswhy"
-            />
-          </div>
-          <p id="nameTakenWarning" class="hidden mt-2 text-sm text-red-400">
-            Sorry, this name is already taken
-          </p>
-        </div>
-
-        <div class="w-full">
-          <label class="block text-gray-600 text-sm mb-2">
-            Your long URL
-          </label>
-
-          <textarea
-            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
-            id="url"
-            type="text"
-            placeholder="https://xxxxx.notion.site/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          ></textarea>
-
-          <p id="invalidURLWarning" class="hidden mt-1 text-sm text-red-400">
-            Invalid URL
-          </p>
-        </div>
-
-        <button
-          class="w-full flex items-center justify-center p-2 text-white bg-indigo-500 rounded hover:bg-indigo-700"
-          onclick="submit()"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            id="spining-icon"
-            class="h-6 w-6 mr-1 animate-spin hidden"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            />
-          </svg>
-          <span>Make Link</span>
-        </button>
+      <div class="hidden xl:block ml-32">
+        <h2 class="text-lg text-indigo-200 font-bold">Try the following</h2>
+        <ul class="mt-4 space-y-3 text-white font-black text-xl tracking-wide">
+          ${aliasLinks}
+        </ul>
       </div>
-
-      <p class="mt-8 text-center text-indigo-400 text-xs">
-        &copy; 2022 Built by Jason Gao with Cloudflare Worker
-      </p>
     </div>
 
     <script>
@@ -222,6 +230,26 @@ const welcomePage = `<!DOCTYPE html>
 </html>
 `;
 
+const AliasLink = (pathname) => `<li>
+  <a target="_blank" class="flex items-center group hover:underline" href="${pathname}"
+    >${pathname}<svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6 ml-2 transform scale-75 text-indigo-500 group-hover:text-indigo-200"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+      />
+    </svg>
+  </a>
+</li>
+`;
+
 function responseJSON(response = {}) {
   return new Response(JSON.stringify(response), {
     headers: {
@@ -287,11 +315,22 @@ async function handleGetRequest(request) {
   const { pathname } = new URL(request.url);
 
   if (pathname == "/") {
-    return new Response(welcomePage, {
-      headers: {
-        "content-type": "text/html;charset=UTF-8",
-      },
-    });
+    const value = await ALIAS_MAP.list();
+    const shuffledKeys = value.keys.sort(() => 0.5 - Math.random());
+
+    return new Response(
+      WelcomePage(
+        shuffledKeys
+          .slice(0, 10)
+          .map(({ name }) => AliasLink(name))
+          .join("\n")
+      ),
+      {
+        headers: {
+          "content-type": "text/html;charset=UTF-8",
+        },
+      }
+    );
   }
 
   const destinationURL = await ALIAS_MAP.get(decodeURI(pathname));
