@@ -36,10 +36,41 @@ const welcomePage = `<!DOCTYPE html>
       </div>
 
       <div
+        id="result"
+        class="hidden flex flex-col items-center mt-12 bg-white shadow-lg p-8 rounded"
+      >
+        <h2 class="text-2xl font-bold text-gray-900">Congratulation</h2>
+        <p class="mt-2 text-gray-600">You can access your page now at</p>
+        <a
+          class="mt-4 py-8 px-10 text-2xl flex items-center space-x-1 group"
+          id="destinationLink"
+          href="/"
+          target="_blank"
+        >
+          <span id="destinationName" class="group-hover:underline"></span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-gray-600 transform scale-75"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <div
+        id="form"
         class="flex flex-col items-center mt-12 bg-white shadow-lg p-6 rounded space-y-6"
       >
-        <div>
-          <label class="block text-gray-600 text-sm mb-2"> Alias </label>
+        <div class="w-full">
+          <label class="block text-gray-600 text-sm mb-2">Alias</label>
           <div class="flex space-x-2 items-center">
             <p class="py-2 text-lg font-bold italic tracking-wide">
               ${DOMAIN_NAME}/
@@ -98,6 +129,10 @@ const welcomePage = `<!DOCTYPE html>
       const alias = document.querySelector("#alias");
       const destinationURL = document.querySelector("#url");
       const spinningIcon = document.querySelector("#spining-icon");
+      const resultDialog = document.querySelector("#result");
+      const formDialog = document.querySelector("#form");
+      const destinationLink = document.querySelector("#destinationLink");
+      const destinationName = document.querySelector("#destinationName");
 
       function submit() {
         let complete = true;
@@ -135,7 +170,11 @@ const welcomePage = `<!DOCTYPE html>
           })
           .then((response) => {
             if (response.result == "SUCCESS") {
-              console.log(response.name, response.url);
+              destinationName.innerHTML = response.name;
+              destinationURL.href = response.href;
+              resultDialog.classList.remove("hidden");
+              formDialog.classList.add("hidden");
+              spinningIcon.classList.add("hidden");
             }
           });
       }
