@@ -171,7 +171,7 @@ const welcomePage = `<!DOCTYPE html>
           .then((response) => {
             if (response.result == "SUCCESS") {
               destinationName.innerHTML = response.name;
-              destinationURL.href = response.href;
+              destinationLink.href = response.href;
               resultDialog.classList.remove("hidden");
               formDialog.classList.add("hidden");
               spinningIcon.classList.add("hidden");
