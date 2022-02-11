@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "itp-works",
+  "version": "1.0.0",
+  "description": "A URL shortener that runs on Cloudflare Workers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jasongao97 <jasongao97@gmail.com>",
+  "license": "MIT"
+}

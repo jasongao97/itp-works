@@ -1,0 +1,10 @@
+name = "itp-works"
+type = "javascript"
+account_id = ""
+workers_dev = true
+compatibility_date = "2022-02-11"
+
+vars = { DOMAIN_NAME = "itp.works", SITE_TITLE = "ITP Works" }
+kv_namespaces = [
+  { binding = "ALIAS_MAP", id = "xxx", preview_id = "xxx" }
+]
