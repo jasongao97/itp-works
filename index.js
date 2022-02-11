@@ -41,28 +41,33 @@ const welcomePage = `<!DOCTYPE html>
       >
         <h2 class="text-2xl font-bold text-gray-900">Congratulation</h2>
         <p class="mt-2 text-gray-600">You can access your page now at</p>
-        <a
-          class="mt-4 py-8 px-10 text-2xl flex items-center space-x-1 group"
-          id="destinationLink"
-          href="/"
-          target="_blank"
+        <div
+          class="mt-6 py-4 px-6 text-xl rounded bg-gray-200 flex items-center space-x-12"
         >
-          <span id="destinationName" class="group-hover:underline"></span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-gray-600 transform scale-75"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+          <p id="destinationName"></p>
+          <a
+            id="destinationLink"
+            class="border text-gray-500 border-gray-300 hover:bg-gray-300 rounded text-sm pl-2 pr-1 flex items-center"
+            href="/"
+            target="_blank"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-            />
-          </svg>
-        </a>
+            Open
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 transform scale-75"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
 
       <div
@@ -126,8 +131,8 @@ const welcomePage = `<!DOCTYPE html>
     </div>
 
     <script>
-      const alias = document.querySelector("#alias");
-      const destinationURL = document.querySelector("#url");
+      const aliasInput = document.querySelector("#alias");
+      const destinationInput = document.querySelector("#url");
       const spinningIcon = document.querySelector("#spining-icon");
       const resultDialog = document.querySelector("#result");
       const formDialog = document.querySelector("#form");
@@ -137,16 +142,16 @@ const welcomePage = `<!DOCTYPE html>
       function submit() {
         let complete = true;
 
-        if (!alias.value) {
-          alias.classList.add("ring-2");
-          alias.classList.add("ring-red-400");
+        if (!aliasInput.value) {
+          aliasInput.classList.add("ring-2");
+          aliasInput.classList.add("ring-red-400");
 
           complete = false;
         }
 
-        if (!destinationURL.value) {
-          destinationURL.classList.add("ring-2");
-          destinationURL.classList.add("ring-red-400");
+        if (!destinationInput.value) {
+          destinationInput.classList.add("ring-2");
+          destinationInput.classList.add("ring-red-400");
 
           complete = false;
         }
@@ -161,8 +166,8 @@ const welcomePage = `<!DOCTYPE html>
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            alias: alias.value,
-            destinationURL: destinationURL.value,
+            alias: aliasInput.value,
+            destinationURL: destinationInput.value,
           }),
         })
           .then((data) => {
