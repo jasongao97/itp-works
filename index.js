@@ -75,7 +75,7 @@ const welcomePage = `<!DOCTYPE html>
         class="flex flex-col items-center mt-12 bg-white shadow-lg p-6 rounded space-y-6"
       >
         <div class="w-full">
-          <label class="block text-gray-600 text-sm mb-2">Alias</label>
+          <label class="block text-gray-600 text-sm mb-2">Name</label>
           <div class="flex space-x-2 items-center">
             <p class="py-2 text-lg font-bold italic tracking-wide">
               ${DOMAIN_NAME}/
@@ -87,6 +87,9 @@ const welcomePage = `<!DOCTYPE html>
               placeholder="henryiswhy"
             />
           </div>
+          <p id="nameTakenWarning" class="hidden mt-2 text-sm text-red-400">
+            Sorry, this name is already taken
+          </p>
         </div>
 
         <div class="w-full">
@@ -100,6 +103,10 @@ const welcomePage = `<!DOCTYPE html>
             type="text"
             placeholder="https://xxxxx.notion.site/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
           ></textarea>
+
+          <p id="invalidURLWarning" class="hidden mt-1 text-sm text-red-400">
+            Invalid URL
+          </p>
         </div>
 
         <button
@@ -138,6 +145,24 @@ const welcomePage = `<!DOCTYPE html>
       const formDialog = document.querySelector("#form");
       const destinationLink = document.querySelector("#destinationLink");
       const destinationName = document.querySelector("#destinationName");
+      const nameTakenWarning = document.querySelector("#nameTakenWarning");
+      const invalidURLWarning = document.querySelector("#invalidURLWarning");
+
+      // Remove warnings when type something
+      aliasInput.addEventListener("input", function (event) {
+        if (event.srcElement.value) {
+          aliasInput.classList.remove("ring-2");
+          aliasInput.classList.remove("ring-red-400");
+          nameTakenWarning.classList.add("hidden");
+        }
+      });
+      destinationInput.addEventListener("input", function (event) {
+        if (event.srcElement.value) {
+          destinationInput.classList.remove("ring-2");
+          destinationInput.classList.remove("ring-red-400");
+          invalidURLWarning.classList.add("hidden");
+        }
+      });
 
       function submit() {
         let complete = true;
@@ -174,12 +199,21 @@ const welcomePage = `<!DOCTYPE html>
             return data.json();
           })
           .then((response) => {
+            spinningIcon.classList.add("hidden");
+
             if (response.result == "SUCCESS") {
               destinationName.innerHTML = response.name;
               destinationLink.href = response.href;
               resultDialog.classList.remove("hidden");
               formDialog.classList.add("hidden");
-              spinningIcon.classList.add("hidden");
+            } else if (response.result == "ALREADY_EXIST") {
+              nameTakenWarning.classList.remove("hidden");
+              aliasInput.classList.add("ring-2");
+              aliasInput.classList.add("ring-red-400");
+            } else if (response.result == "INVALID_URL") {
+              invalidURLWarning.classList.remove("hidden");
+              destinationInput.classList.add("ring-2");
+              destinationInput.classList.add("ring-red-400");
             }
           });
       }
